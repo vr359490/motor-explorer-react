@@ -1,0 +1,131 @@
+:root {
+  --bg: #0a1117;
+  --surface: #101b24;
+  --surface-2: #16242f;
+  --surface-3: #1d2f3c;
+  --border: #223440;
+  --border-soft: #1a2833;
+  --text: #a6bccc;
+  --text-strong: #e9f2f8;
+  --muted: #6a8295;
+  --accent: #4ee1df;
+  --positive: #7ef0a8;
+
+  --sans: ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, 'SF Mono', monospace;
+
+  --radius: 10px;
+
+  color-scheme: dark;
+  font: 15px/1.55 var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(78, 225, 223, 0.06), transparent 70%),
+    var(--bg);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-strong);
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+
+button:hover:not(:disabled) {
+  background: var(--surface-3);
+  border-color: #2e4654;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Range inputs get styled explicitly, since the native control looks wrong
+   against a dark surface in most browsers. */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  margin: 10px 0 6px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  cursor: pointer;
+}
+
+input[type='range']:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--text-strong);
+  border: 3px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--text-strong);
+  border: 3px solid var(--surface);
+}
+
+/* KaTeX renders at its own scale; rein it in and let it scroll if it must. */
+.katex {
+  font-size: 1.02em;
+  color: var(--text-strong);
+}
+
+.katex-display {
+  margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 0;
+}
