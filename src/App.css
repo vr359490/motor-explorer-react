@@ -290,6 +290,156 @@
   padding-left: 2px;
 }
 
+/* ---------- circuit diagram ---------- */
+
+.circuit {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.wire {
+  fill: none;
+  stroke: #3b5468;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.wire-current {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 5 11;
+  animation: current-flow linear infinite;
+}
+
+@keyframes current-flow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wire-current {
+    animation: none;
+  }
+}
+
+.coil {
+  fill: none;
+  stroke: var(--text-strong);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.armature {
+  fill: var(--surface-2);
+  stroke: var(--text-strong);
+  stroke-width: 2.5;
+}
+
+.commutator {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2;
+}
+
+.commutator-gap {
+  stroke: var(--muted);
+  stroke-width: 2;
+}
+
+.brush {
+  fill: var(--muted);
+}
+
+.cell-long {
+  stroke: var(--text-strong);
+  stroke-width: 2.5;
+}
+
+.cell-short {
+  stroke: var(--text-strong);
+  stroke-width: 2.5;
+}
+
+.node {
+  fill: var(--text-strong);
+}
+
+.cage {
+  fill: rgba(27, 44, 58, 0.5);
+  stroke: #3b5468;
+  stroke-width: 2;
+}
+
+/* The air gap is drawn as a deliberate break, not a connection. */
+.air-gap {
+  stroke: #ff9bae;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 6;
+  opacity: 0.7;
+}
+
+.circuit-label {
+  fill: var(--muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
+
+.circuit-value {
+  fill: var(--text-strong);
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
+
+.circuit-note {
+  fill: #4e6475;
+  font-size: 11.5px;
+}
+
+.circuit-polarity {
+  fill: var(--text-strong);
+  font-family: var(--mono);
+  font-size: 15px;
+}
+
+.circuit-label.middle,
+.circuit-value.middle,
+.circuit-note.middle {
+  text-anchor: middle;
+}
+
+.circuit-label.end {
+  text-anchor: end;
+}
+
+/* ---------- stage view toggle ---------- */
+
+.stage-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  align-self: flex-start;
+}
+
+.stage-tab {
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--muted);
+  border-radius: 7px;
+}
+
+.stage-tab.active {
+  background: var(--surface-3);
+  color: var(--text-strong);
+}
+
 /* ---------- torque-speed plot ---------- */
 
 .plot {

@@ -11,7 +11,14 @@ export const motorAccent: Record<MotorKind, string> = {
   induction: '#ff708e',
 }
 
-/** Every component and overlay the sketch knows how to draw. */
+/**
+ * Every component and overlay the visualizations know how to draw.
+ *
+ * The laboratory shows all of them; a construction step shows only what it has
+ * introduced so far. The DC-specific ids at the end are drawn by the circuit
+ * diagram rather than the p5 sketch, since brushes and a commutator are
+ * electrical parts with no magnetic story to tell.
+ */
 export const allVisible: ReadonlySet<string> = new Set([
   'stator',
   'stator-windings',
@@ -22,4 +29,8 @@ export const allVisible: ReadonlySet<string> = new Set([
   'slip',
   'torque',
   'mechanical-load',
+  'field-winding',
+  'armature',
+  'commutator',
+  'brushes',
 ])

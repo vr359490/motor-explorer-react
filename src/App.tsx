@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import './App.css'
+import { CircuitDiagram } from './components/CircuitDiagram'
 import { ConstructionPanel } from './components/ConstructionPanel'
 import { CurvePlot } from './components/CurvePlot'
 import { EquationPanel } from './components/EquationPanel'
@@ -14,6 +15,7 @@ import { motorRegistry, type MotorParameters } from './motors'
 import type { MotorKind } from './motors/Motor'
 
 type Mode = 'lab' | 'construction'
+type StageView = 'machine' | 'circuit'
 
 export default function App() {
   const [kind, setKind] = useState<MotorKind>('induction')
@@ -21,6 +23,7 @@ export default function App() {
   const [running, setRunning] = useState(true)
   const [stepIndex, setStepIndex] = useState(1)
   const [phase, setPhase] = useState<PhaseName>('introduction')
+  const [stageView, setStageView] = useState<StageView>('machine')
 
   const motor = motorRegistry[kind]
   const sequence = constructionSequences[kind]
@@ -137,14 +140,42 @@ export default function App() {
         </aside>
 
         <div className="column stage">
-          <MotorSketch
-            kind={kind}
-            sample={simulation.sample}
-            visible={visible}
-            running={rotorRunning}
-            fieldAnimating={fieldAnimating}
-            accent={accent}
-          />
+          <div className="stage-tabs" role="group" aria-label="View">
+            <button
+              type="button"
+              className={stageView === 'machine' ? 'stage-tab active' : 'stage-tab'}
+              onClick={() => setStageView('machine')}
+            >
+              Machine
+            </button>
+            <button
+              type="button"
+              className={stageView === 'circuit' ? 'stage-tab active' : 'stage-tab'}
+              onClick={() => setStageView('circuit')}
+            >
+              Circuit
+            </button>
+          </div>
+
+          {stageView === 'machine' ? (
+            <MotorSketch
+              kind={kind}
+              sample={simulation.sample}
+              visible={visible}
+              running={rotorRunning}
+              fieldAnimating={fieldAnimating}
+              accent={accent}
+            />
+          ) : (
+            <CircuitDiagram
+              kind={kind}
+              outputs={simulation.outputs}
+              supplyVoltage={Number(parameters.supplyVoltage ?? 0)}
+              visible={visible}
+              accent={accent}
+              animated={rotorRunning || fieldAnimating}
+            />
+          )}
 
           <ReadoutPanel kind={kind} outputs={simulation.outputs} elapsed={simulation.elapsed} />
 
