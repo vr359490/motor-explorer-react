@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import './App.css'
 import { ConstructionPanel } from './components/ConstructionPanel'
+import { CurvePlot } from './components/CurvePlot'
 import { EquationPanel } from './components/EquationPanel'
 import { MotorSelector } from './components/MotorSelector'
 import { MotorSketch } from './components/MotorSketch'
@@ -150,7 +151,15 @@ export default function App() {
           {construction ? (
             <EquationPanel title="Relationships" equations={step.equations} />
           ) : (
-            <EquationPanel title="Relationships" expression={motor.equation} />
+            <>
+              <CurvePlot
+                motor={motor}
+                parameters={parameters}
+                outputs={simulation.outputs}
+                accent={accent}
+              />
+              <EquationPanel title="Relationships" expression={motor.equation} />
+            </>
           )}
         </div>
       </main>
