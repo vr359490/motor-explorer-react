@@ -42,11 +42,8 @@ export default function App() {
     setPhase('introduction')
   }, [])
 
-  // Only induction has a construction sequence so far; fall back to the lab.
-  const effectiveMode: Mode = sequence ? mode : 'lab'
-  const step = sequence ? stepAt(sequence, stepIndex) : undefined
-
-  const construction = effectiveMode === 'construction' && sequence && step
+  const step = stepAt(sequence, stepIndex)
+  const construction = mode === 'construction' && step !== undefined
   const visible = construction ? componentsActiveAt(sequence, stepIndex) : allVisible
 
   // In construction mode the step decides whether the rotor may turn; in the
@@ -76,16 +73,14 @@ export default function App() {
         <div className="mode-switch" role="group" aria-label="Mode">
           <button
             type="button"
-            className={effectiveMode === 'construction' ? 'mode active' : 'mode'}
-            disabled={!sequence}
-            title={sequence ? undefined : 'No construction sequence for this machine yet'}
+            className={mode === 'construction' ? 'mode active' : 'mode'}
             onClick={() => setMode('construction')}
           >
             Construction
           </button>
           <button
             type="button"
-            className={effectiveMode === 'lab' ? 'mode active' : 'mode'}
+            className={mode === 'lab' ? 'mode active' : 'mode'}
             onClick={() => setMode('lab')}
           >
             Laboratory

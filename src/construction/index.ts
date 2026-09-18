@@ -17,18 +17,28 @@ export {
   stepById,
   validateSequence,
 } from './ConstructionStep'
+export { dcFoundation, dcShuntConstruction } from './DCShuntConstruction'
+export { dcSeriesConstruction } from './DCSeriesConstruction'
+export { dcCompoundConstruction } from './DCCompoundConstruction'
 export { inductionConstruction } from './InductionConstruction'
 
 import type { MotorKind } from '../motors/Motor'
 import type { ConstructionSequence } from './ConstructionStep'
+import { dcCompoundConstruction } from './DCCompoundConstruction'
+import { dcSeriesConstruction } from './DCSeriesConstruction'
+import { dcShuntConstruction } from './DCShuntConstruction'
 import { inductionConstruction } from './InductionConstruction'
 
 /**
  * Construction sequences by motor kind.
  *
- * Induction comes first because spec section 28 nominates it as the sequence
- * that establishes the framework. The DC sequences follow in Sprint 4.
+ * The shunt sequence builds a DC machine from nothing; series and compound
+ * start with that machine already assembled and change only the field
+ * connection, which is what spec section 9 asks for.
  */
-export const constructionSequences: Partial<Record<MotorKind, ConstructionSequence>> = {
+export const constructionSequences: Record<MotorKind, ConstructionSequence> = {
+  shunt: dcShuntConstruction,
+  series: dcSeriesConstruction,
+  compound: dcCompoundConstruction,
   induction: inductionConstruction,
 }

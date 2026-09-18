@@ -73,9 +73,16 @@ export function MotorSketch({ kind, sample, visible, running, fieldAnimating, ac
         p.translate(cx, cy)
 
         if (visible.has('stator')) drawStator(p, r, accent)
-        if (visible.has('stator-windings')) {
+
+        // DC sequences introduce the field structure and the flux it produces
+        // as separate steps, so the poles can be present while unenergised.
+        const showWindings =
+          kind === 'induction'
+            ? visible.has('stator-windings')
+            : visible.has('field-winding') || visible.has('stator-windings')
+        if (showWindings) {
           if (kind === 'induction') drawThreePhaseWindings(p, r, fieldAngle, visible.has('rotating-field'))
-          else drawFieldPoles(p, r, out.flux, accent)
+          else drawFieldPoles(p, r, out.flux, accent, visible.has('field-flux'))
         }
         if (visible.has('rotating-field')) drawFieldVector(p, r, fieldAngle)
         if (visible.has('rotor')) drawRotor(p, r, rotorAngle, visible.has('squirrel-cage'), visible.has('rotor-current'), out)
@@ -134,17 +141,20 @@ function drawThreePhaseWindings(p: p5, r: number, fieldAngle: number, energised:
   }
 }
 
-function drawFieldPoles(p: p5, r: number, flux: number, accent: string) {
+function drawFieldPoles(p: p5, r: number, flux: number, accent: string, energised: boolean) {
   // DC machines get two salient poles rather than three-phase windings.
-  const strength = Math.min(Math.abs(flux), 1.4)
   p.noStroke()
   for (const side of [0, Math.PI]) {
-    p.fill(accent)
+    p.fill(energised ? accent : muted)
     p.push()
     p.rotate(side)
     p.rect(-r * 0.34, -(r + 30), r * 0.68, 22, 4)
     p.pop()
   }
+  if (!energised) return
+
+  // Flux only appears once the field winding is carrying current.
+  const strength = Math.min(Math.abs(flux), 1.4)
   p.noFill()
   p.stroke(accent)
   p.strokeWeight(1 + strength * 3)

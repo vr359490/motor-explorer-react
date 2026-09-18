@@ -173,7 +173,10 @@ export const validateSequence = (sequence: ConstructionSequence): string[] => {
 
     for (const phase of phaseOrder) {
       for (const id of step[phase].highlight) {
-        if (!introduced.has(id) && id !== step.component.id) {
+        // A step may highlight anything already built, and anything it brings
+        // into existence itself. The series and compound sequences lean on the
+        // second case: they open with the whole DC machine already assembled.
+        if (!introduced.has(id) && !step.activates.includes(id)) {
           issues.push(`step "${step.id}" highlights "${id}" in ${phase} before it exists`)
         }
       }
